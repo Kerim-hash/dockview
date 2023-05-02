@@ -1,40 +1,36 @@
-import * as React from "react"
-import * as Dockable from "@hlorenzi/react-dockable"
+import React, { Component } from "react";
+import Chart from "react-apexcharts";
 
-const App =() => {
-    // Create the base state,
-    // and set up initial content
-    const state = Dockable.useDockable((state) =>
-    {
-        Dockable.createDockedPanel(
-            state, state.rootPanel, Dockable.DockMode.Full,
-            <Counter/>)
-    })
-
-    // Render the root Container element,
-    // which handles all interactions on your behalf
-    return <div style={{
-        width: "100vw",
-        height: "100vh",
-    }}>
-
-        <Dockable.Container state={ state }/>
-
-    </div>
-}
-export default App
-// Your custom element!
-function Counter()
-{
-    const [value, setValue] = React.useState(0)
-    const countUp = () => setValue(value + 1)
-
-    const ctx = Dockable.useContentContext()
-    ctx.setTitle(`Count: ${ value }`)
-    ctx.setPreferredSize(300, 250)
-
-    return <div>
-        { value }
-        <button onClick={ countUp }>Count up!</button>
-    </div>
-}
+export default function Dockable() {
+ 
+    const state = {
+      options: {
+        chart: {
+          id: "basic-bar"
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+        }
+      },
+      series: [
+        {
+          name: "series-1",
+          data: [30, 40, 45, 50, 49, 60, 70, 91]
+        }
+      ]
+    };
+    return (
+      <div className="app">
+        <div className="row">
+          <div className="mixed-chart">
+            <Chart
+              options={state.options}
+              series={state.series}
+              type="bar"
+              width="500"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
